@@ -94,10 +94,14 @@ public class Player {
         // THIS IS CURRENTLY BEING CHANGED, MAKE SURE THE I's REFLECT THIS
         for (int i : Numbers.keySet()) {
             // Get ride of handStrength check, makes three of a kind impossible?
-            if (Numbers.get(i) == 2 && handStrength < 1) {
-                handStrength = 1;
+            System.out.println(Numbers.get(i));
+            if (Numbers.get(i) == 2) {
                 num_pairs += 1;
                 pairStrengths.add(i);
+
+                if (handStrength < 1) {
+                    handStrength = 1;
+                }
 
                 highestRank = "Pair";
             } else if (Numbers.get(i) == 3 && handStrength < 3) {
@@ -122,6 +126,7 @@ public class Player {
         Collections.sort(threeStrengths);
 
         // Full House? (need to test)
+        System.out.println(num_pairs);
         if ((num_pairs >= 1 && handStrength == 3) && handStrength < 6) {
             handStrength = 6;
             highestRank = "Full House";
@@ -143,13 +148,17 @@ public class Player {
             for (int i = 0; i <= straight_Nums.size() - 5; i++) {
                 for (int j = 0; j < 4; j++) {
                     temp_Straight = true;
-                    temp_highest = straight_Nums.get(j + i) + 1;
+                    System.out.println(straight_Nums);
+                    temp_highest = straight_Nums.get(j + i + 1);
+                    System.out.println(temp_highest);
                     if (straight_Nums.get(j + i) + 1 != straight_Nums.get(i + j + 1)) {
                         temp_Straight = false;
                         break;
                     }
                     if (j == 3 && temp_Straight == true) {
                         is_Straight = true;
+                        System.out.println(highestCard);
+                        System.out.println(temp_highest);
                         highestCard = temp_highest;
 
                     }
@@ -162,7 +171,6 @@ public class Player {
             if (is_Straight == true) {
                 handStrength = 4;
                 highestRank = "Straight";
-                highestCard = temp_highest;
 
                 // Need to figure this out elsewhere
 

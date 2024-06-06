@@ -60,17 +60,17 @@ public class Deck {
     }
 
     public void DealCards() {
-        Shuffle();
-        if (deck.size() != 52) {
-            RegainCards();
-        }
+        // Shuffle();
+        // if (deck.size() != 52) {
+        // RegainCards();
+        // }
 
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).AddCard(deck.get(deck.size() - 1));
-            deck.remove(deck.size() - 1);
-            players.get(i).AddCard(deck.get(deck.size() - 1));
-            deck.remove(deck.size() - 1);
-        }
+        // for (int i = 0; i < players.size(); i++) {
+        // players.get(i).AddCard(deck.get(deck.size() - 1));
+        // deck.remove(deck.size() - 1);
+        // players.get(i).AddCard(deck.get(deck.size() - 1));
+        // deck.remove(deck.size() - 1);
+        // }
     }
 
     public void RegainCards() {
@@ -119,12 +119,14 @@ public class Deck {
     }
 
     public void showFlop() {
-        Shuffle();
+        // Used for Testing
         flop.add(deck.get(0));
-        flop.add(deck.get(1));
-        flop.add(deck.get(2));
-        flop.add(deck.get(3));
-        flop.add(deck.get(4));
+        flop.add(deck.get(13));
+        flop.add(deck.get(26));
+        flop.add(deck.get(39));
+        flop.add(deck.get(51));
+        players.get(0).AddCard(deck.get(10));
+        players.get(0).AddCard(deck.get(9));
         System.out.print("Flop is: ");
         for (int i = 0; i < flop.size(); i++) {
             flop.get(i).callingCard();
