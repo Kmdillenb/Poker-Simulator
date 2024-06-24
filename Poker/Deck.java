@@ -59,18 +59,22 @@ public class Deck {
         players.add(person);
     }
 
+    // Gives out hands at the beginning of the game
     public void DealCards() {
-        // Shuffle();
-        // if (deck.size() != 52) {
-        // RegainCards();
-        // }
+        Shuffle();
+        if (deck.size() != 52) {
+            RegainCards();
+        }
 
-        // for (int i = 0; i < players.size(); i++) {
-        // players.get(i).AddCard(deck.get(deck.size() - 1));
-        // deck.remove(deck.size() - 1);
-        // players.get(i).AddCard(deck.get(deck.size() - 1));
-        // deck.remove(deck.size() - 1);
-        // }
+        for (int i = 0; i < players.size(); i++) {
+            players.get(i).AddCard(deck.get(deck.size() - 1));
+            deck.remove(deck.size() - 1);
+            players.get(i).AddCard(deck.get(deck.size() - 1));
+            deck.remove(deck.size() - 1);
+        }
+
+        // calculates players current Strength level
+        playerStrengths();
     }
 
     public void RegainCards() {
@@ -84,7 +88,7 @@ public class Deck {
         for (int i = 0; i < flop.size(); i++) {
             deck.add(flop.get(i));
         }
-        flop = new ArrayList<Card>();
+        flop.clear();
         Shuffle();
     }
 
@@ -101,17 +105,28 @@ public class Deck {
         }
     }
 
+    // returns the size of the deck
     public void deckSize() {
         System.out.println(deck.size());
     }
 
     public void revealCard() {
-        if (flop.size() < 3) {
+        // When flop is first Shown
+        if (flop.size() == 0) {
+            for (int i = 0; i < 3; i++) {
+                flop.add(deck.get(deck.size() - 1));
+                deck.remove(deck.size() - 1);
+            }
+        }
+
+        // Adds another card until 5 has been reached in which the game will instead end
+        else if (flop.size() < 5) {
             flop.add(deck.get(deck.size() - 1));
             deck.remove(deck.size() - 1);
         } else {
             endGame();
         }
+        playerStrengths();
     }
 
     public ArrayList<Card> returnFlop() {
@@ -120,6 +135,7 @@ public class Deck {
 
     public void showFlop() {
         // Used for Testing
+        flop.clear();
         flop.add(deck.get(0));
         flop.add(deck.get(13));
         flop.add(deck.get(26));
@@ -127,6 +143,7 @@ public class Deck {
         flop.add(deck.get(51));
         players.get(0).AddCard(deck.get(10));
         players.get(0).AddCard(deck.get(9));
+
         System.out.print("Flop is: ");
         for (int i = 0; i < flop.size(); i++) {
             flop.get(i).callingCard();
@@ -142,34 +159,50 @@ public class Deck {
 
         // Determine winner
         int Winners = 0;
+
+        // Highest rank out of the players
         int TopRank = 0;
-        ArrayList<Integer> TopRanked = new ArrayList<Integer>();
+
+        // Highest Card out of the high ranked players
         int TopCard = 0;
+
+        // array of everyones ranks
         ArrayList<Integer> rankings = new ArrayList<Integer>();
+
+        // array of everyones high cards
         ArrayList<Integer> highCards = new ArrayList<Integer>();
+
+        // Just players with the highest rank
+        ArrayList<Integer> TopRanked = new ArrayList<Integer>();
+
+        // Fills in score data - possibly to print it out
         for (int i = 0; i < players.size(); i++) {
             rankings.add(players.get(i).getRanking());
             highCards.add(players.get(i).getHighest());
         }
 
+        // Creates the top rank
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getRanking() > TopRank) {
+            if (players.get(i).getRanking() > TopRank
+                    || (players.get(i).getRanking() == TopRank && players.get(i).getHighest() > TopCard)) {
                 TopRank = players.get(i).getRanking();
+                TopCard = players.get(i).getHighest();
                 TopRanked.clear();
                 TopRanked.add(i);
-            } else if (players.get(i).getRanking() == TopRank) {
+            } else if (players.get(i).getRanking() == TopRank && players.get(i).getHighest() == TopCard) {
                 TopRanked.add(i);
             }
         }
-        // if (TopRanked.size() > 1) {
-        // for (int i = 0; i < TopRanked.size(); i++) {
-        // // TO DO
-        // }
-        // } else {
-        // System.out.print("The Winner is Player " + TopRanked.get(0) + " winning
-        // with:"
-        // + players.get(TopRanked.get(0)).getRankTitle());
-        // }
+        Winners = TopRanked.size();
+
+        System.out.println("The Winners Are: ");
+
+        for (int i = 0; i < Winners; i++) {
+            System.out.println(
+                    "Player " + TopRanked.get(i) + " Who won with: " + players.get(TopRanked.get(i)).getRankTitle());
+        }
+
+        System.out.println("End of Game!");
 
         RegainCards();
     }

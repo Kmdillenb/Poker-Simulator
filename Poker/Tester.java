@@ -8,8 +8,12 @@ public class Tester {
         hands.CallCards();
         hands.deckSize();
         hands.addPlayer(new Player());
-        hands.DealCards();
+        hands.addPlayer(new Player());
 
+        hands.DealCards();
+        hands.revealCard();
+        hands.revealCard();
+        hands.revealCard();
         hands.showFlop();
         hands.playerStrengths();
         hands.playerHands();
