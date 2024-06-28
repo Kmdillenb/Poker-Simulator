@@ -136,13 +136,15 @@ public class Deck {
     public void showFlop() {
         // Used for Testing
         flop.clear();
-        flop.add(deck.get(0));
-        flop.add(deck.get(13));
-        flop.add(deck.get(26));
-        flop.add(deck.get(39));
+        flop.add(deck.get(41));
+        flop.add(deck.get(42));
+        flop.add(deck.get(30));
+        flop.add(deck.get(44));
         flop.add(deck.get(51));
-        players.get(0).AddCard(deck.get(10));
+        players.get(0).AddCard(deck.get(40));
         players.get(0).AddCard(deck.get(9));
+        players.get(1).AddCard(deck.get(45));
+        players.get(1).AddCard(deck.get(0));
 
         System.out.print("Flop is: ");
         for (int i = 0; i < flop.size(); i++) {

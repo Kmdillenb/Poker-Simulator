@@ -56,9 +56,10 @@ public class Player {
     public void determineStrength(ArrayList<Card> current_flop) {
         ArrayList<Card> allCards = new ArrayList<Card>();
         HashMap<String, Integer> suits = new HashMap<String, Integer>();
+
+        // The Number of each Number in the decks
         HashMap<Integer, Integer> Numbers = new HashMap<Integer, Integer>();
         boolean is_Straight = false;
-        int temp_highest = 0;
         // For when you need to compare the strengths of the pairs
         ArrayList<Integer> pairStrengths = new ArrayList<Integer>();
         ArrayList<Integer> threeStrengths = new ArrayList<Integer>();
@@ -102,23 +103,25 @@ public class Player {
 
                 if (handStrength < 1) {
                     handStrength = 1;
+                    highestRank = "Pair";
+                    highestCard = i;
                 }
 
-                highestRank = "Pair";
             } else if (Numbers.get(i) == 3 && handStrength < 3) {
                 // Three of a kind
                 handStrength = 3;
                 threeStrengths.add(i);
                 highestRank = "Three of a kind";
+                highestCard = i;
             } else if (Numbers.get(i) == 4 && handStrength < 7) {
                 handStrength = 7;
-                // Important, see if this impacts stuff later on
                 highestCard = i;
                 highestRank = "Four of a kind";
             }
             if (num_pairs == 2 && handStrength < 2) {
                 handStrength = 2;
                 highestRank = "Two Pair";
+                highestCard = Math.max(pairStrengths.get(0), pairStrengths.get(1));
             }
         }
         // puts the strength of the pairs in order so It's easier to compare them with
@@ -146,23 +149,21 @@ public class Player {
             straight_Nums.addAll(Numbers.keySet());
             Collections.sort(straight_Nums);
 
-            // Needs reworking
-            // Update: think it works but maybe not
             is_Straight = false;
+            // Determines if the straight is also a straight flush
+            boolean is_flush = false;
             boolean temp_Straight = false;
-            temp_highest = 0;
             // runs 1-3 times, depending on the size of the flop
             for (int i = 0; i <= straight_Nums.size() - 5; i++) {
                 for (int j = 0; j < 4; j++) {
                     temp_Straight = true;
-                    temp_highest = straight_Nums.get(j + i + 1);
                     if (straight_Nums.get(j + i) + 1 != straight_Nums.get(i + j + 1)) {
                         temp_Straight = false;
                         break;
                     }
                     if (j == 3 && temp_Straight == true) {
                         is_Straight = true;
-                        highestCard = temp_highest;
+                        highestCard = straight_Nums.get(j + i + 1);
 
                     }
                 }
@@ -200,7 +201,7 @@ public class Player {
                         handStrength = 8;
                         highestRank = "Straight Flush";
 
-                        if (temp_highest == 13) {
+                        if (highestCard == 13) {
                             handStrength = 9;
                             highestRank = "Royal Flush!";
                         }

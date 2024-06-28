@@ -10,10 +10,10 @@ public class Tester {
         hands.addPlayer(new Player());
         hands.addPlayer(new Player());
 
-        hands.DealCards();
-        hands.revealCard();
-        hands.revealCard();
-        hands.revealCard();
+        // hands.DealCards();
+        // hands.revealCard();
+        // hands.revealCard();
+        // hands.revealCard();
         hands.showFlop();
         hands.playerStrengths();
         hands.playerHands();

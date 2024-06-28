@@ -2,6 +2,10 @@ Things to figure out:
 - Right now the highest rank for three of a kind isn't working
 - highest number for pair and three of a kind isn't working
 
+4S AceS 6S 8H 4H
+KingC 4D 
+QueenC 10 H
+
 
 1) Two Pair Scoring
 2) How to find a straight
