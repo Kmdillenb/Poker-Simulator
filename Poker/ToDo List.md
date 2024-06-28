@@ -1,6 +1,6 @@
 Things to figure out:
-- Right now the highest rank for three of a kind isn't working
-- highest number for pair and three of a kind isn't working
+/Figure out how to make a straight flush
+
 
 4S AceS 6S 8H 4H
 KingC 4D 

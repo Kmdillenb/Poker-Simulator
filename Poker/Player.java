@@ -55,6 +55,11 @@ public class Player {
     // for that rank
     public void determineStrength(ArrayList<Card> current_flop) {
         ArrayList<Card> allCards = new ArrayList<Card>();
+
+        // has the numbers sorted along with their position in the list (used with
+        // straight)
+        HashMap<Integer, Integer> numberSorted = new HashMap<Integer, Integer>();
+
         HashMap<String, Integer> suits = new HashMap<String, Integer>();
 
         // The Number of each Number in the decks
