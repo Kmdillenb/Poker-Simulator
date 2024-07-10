@@ -56,9 +56,8 @@ public class Player {
     public void determineStrength(ArrayList<Card> current_flop) {
         ArrayList<Card> allCards = new ArrayList<Card>();
 
-        // has the numbers sorted along with their position in the list (used with
-        // straight)
-        HashMap<Integer, Integer> numberSorted = new HashMap<Integer, Integer>();
+        // Figure this part out (list of numbers attached to a key of the suit name)
+        HashMap<String, ArrayList<Integer>> suitToInteger = new HashMap<String, ArrayList<Integer>>();
 
         HashMap<String, Integer> suits = new HashMap<String, Integer>();
 
@@ -86,7 +85,10 @@ public class Player {
             } else {
                 suits.put(allCards.get(i).getsuit(), suits.get(allCards.get(i).getsuit()) + 1);
             }
-
+            if (suitToInteger.get(allCards.get(i).getsuit()) == null) {
+                suitToInteger.put(allCards.get(i).getsuit(), new ArrayList<Integer>());
+            }
+            suitToInteger.get(allCards.get(i).getsuit()).add(allCards.get(i).getNumber());
         }
 
         // Find Highest Card
@@ -156,7 +158,6 @@ public class Player {
 
             is_Straight = false;
             // Determines if the straight is also a straight flush
-            boolean is_flush = false;
             boolean temp_Straight = false;
             // runs 1-3 times, depending on the size of the flop
             for (int i = 0; i <= straight_Nums.size() - 5; i++) {
@@ -194,28 +195,57 @@ public class Player {
                 // }
             }
         }
-
-        // flush
-        if (suits.size() <= 3 && handStrength < 5) {
-            for (int i : suits.values()) {
-                if (i >= 5) {
+        // Gonna try making a map instead and seeing if that works
+        for (ArrayList<Integer> i : suitToInteger.values()) {
+            if (i.size() >= 5) {
+                Collections.sort(i);
+                if (handStrength < 5) {
+                    highestCard = i.get(i.size() - 1);
                     handStrength = 5;
                     highestRank = "Flush";
+                }
 
-                    if (is_Straight == true) {
+                // checking for straight
+                for (int j = 0; j < i.size() - 4; j++) {
+                    if (i.get(0 + j) + 4 == i.get(4 + j)) {
+                        highestCard = i.get(4 + j);
                         handStrength = 8;
                         highestRank = "Straight Flush";
 
                         if (highestCard == 13) {
                             handStrength = 9;
                             highestRank = "Royal Flush!";
+                            break;
                         }
                     }
-                    break;
                 }
+
             }
         }
 
     }
+    // Shorten this
+    // flush
+    // if (suits.size() <= 3 && handStrength < 5) {
+    // for (int i : suits.values()) {
+    // if (i >= 5) {
+    // handStrength = 5;
+    // highestRank = "Flush";
+
+    // if (is_Straight == true) {
+    // handStrength = 8;
+    // highestRank = "Straight Flush";
+
+    // if (highestCard == 13) {
+    // handStrength = 9;
+    // highestRank = "Royal Flush!";
+    // }
+    // }
+    // break;
+    // }
+    // }
+    // }
+
+    // }
 
 }
