@@ -4,16 +4,16 @@ public class Tester {
 
         Deck hands = new Deck();
         hands.CreateDeck();
-        // hands.Shuffle();
+        hands.Shuffle();
         hands.CallCards();
         hands.deckSize();
         hands.addPlayer(new Player());
         hands.addPlayer(new Player());
 
-        // hands.DealCards();
-        // hands.revealCard();
-        // hands.revealCard();
-        // hands.revealCard();
+        hands.DealCards();
+        hands.revealCard();
+        hands.revealCard();
+        hands.revealCard();
         hands.showFlop();
         hands.playerStrengths();
         hands.playerHands();
