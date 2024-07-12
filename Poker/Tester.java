@@ -17,6 +17,7 @@ public class Tester {
         hands.showFlop();
         hands.playerStrengths();
         hands.playerHands();
+        hands.revealCard();
 
     }
 

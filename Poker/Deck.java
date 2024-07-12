@@ -88,6 +88,7 @@ public class Deck {
         for (int i = 0; i < flop.size(); i++) {
             deck.add(flop.get(i));
         }
+        deckSize();
         flop.clear();
         Shuffle();
     }
@@ -105,7 +106,7 @@ public class Deck {
         }
     }
 
-    // returns the size of the deck
+    // prints the size of the deck
     public void deckSize() {
         System.out.println(deck.size());
     }

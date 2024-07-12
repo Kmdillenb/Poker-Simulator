@@ -1,6 +1,9 @@
 Things to figure out:
 /Figure out how to make a straight flush
 
+pairs aren't working? -> highest card is inaccurate
+(using tester instead of just deck has been having issues)
+
 
 4S AceS 6S 8H 4H
 KingC 4D 

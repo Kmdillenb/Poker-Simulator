@@ -24,7 +24,6 @@ public class Player {
 
     public ArrayList<Card> returnHand() {
         ArrayList<Card> temp = hand;
-        hand = new ArrayList<Card>();
         return temp;
 
     }
@@ -92,12 +91,14 @@ public class Player {
         }
 
         // Find Highest Card
-        for (int i = 0; i < allCards.size(); i++) {
-            if (allCards.get(i).getNumber() > highestCard) {
-                highestCard = allCards.get(i).getNumber();
+        if (handStrength == 0) {
+            highestRank = "High Card";
+            for (int i = 0; i < allCards.size(); i++) {
+                if (allCards.get(i).getNumber() > highestCard) {
+                    highestCard = allCards.get(i).getNumber();
+                }
             }
         }
-        highestRank = "High Card";
         // do something
         // look for pairs
         int num_pairs = 0;
@@ -109,6 +110,7 @@ public class Player {
                 pairStrengths.add(i);
 
                 if (handStrength < 1) {
+                    System.out.println("occured");
                     handStrength = 1;
                     highestRank = "Pair";
                     highestCard = i;
