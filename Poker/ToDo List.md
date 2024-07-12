@@ -1,8 +1,9 @@
 Things to figure out:
 /Figure out how to make a straight flush
 
-pairs aren't working? -> highest card is inaccurate
-(using tester instead of just deck has been having issues)
+Game works Kinda!
+Now find out how to make it replayable.
+- working on that!
 
 
 4S AceS 6S 8H 4H
