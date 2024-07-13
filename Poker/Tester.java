@@ -29,30 +29,57 @@ public class Tester {
             for (int i = 0; i < numPlayers; i++) {
                 hands.addPlayer(new Player());
             }
+            hands.DealCards();
+
+            // The game in progress
+            for (int i = 0; i < 5; i++) {
+                if (i > 0) {
+                    hands.revealCard();
+                }
+                if (i < 4) {
+                    hands.playerStrengths();
+                    hands.showFlop();
+                    hands.playerHands();
+
+                    System.out.println("Continue? [y or n]");
+                    replay = "";
+                    while (!(replay.toLowerCase().equals("y")) && !(replay.toLowerCase().equals("n"))) {
+                        replay = scnr.nextLine();
+                    }
+                    if (replay.toLowerCase().equals("n")) {
+                        break;
+                    }
+                }
+            }
+            replay = "";
 
             // Determines if the player wants to play again
             System.out.println("Play Again? [y or n]");
             while (!(replay.toLowerCase().equals("y")) && !(replay.toLowerCase().equals("n"))) {
                 replay = scnr.nextLine();
             }
-
+            if (replay.toLowerCase().equals("n")) {
+                break;
+            }
+            hands.RegainCards();
         }
+        System.out.println("Game Over!");
 
-        hands.CreateDeck();
-        hands.Shuffle();
-        hands.CallCards();
-        hands.deckSize();
-        hands.addPlayer(new Player());
-        hands.addPlayer(new Player());
+        // hands.CreateDeck();
+        // hands.Shuffle();
+        // hands.CallCards();
+        // hands.deckSize();
+        // hands.addPlayer(new Player());
+        // hands.addPlayer(new Player());
 
-        hands.DealCards();
-        hands.revealCard();
-        hands.revealCard();
-        hands.revealCard();
-        hands.showFlop();
-        hands.playerStrengths();
-        hands.playerHands();
-        hands.revealCard();
+        // hands.DealCards();
+        // hands.revealCard();
+        // hands.revealCard();
+        // hands.revealCard();
+        // hands.showFlop();
+        // hands.playerStrengths();
+        // hands.playerHands();
+        // hands.revealCard();
 
         scnr.close();
     }

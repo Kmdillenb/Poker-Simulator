@@ -199,6 +199,7 @@ public class Player {
         }
         // Gonna try making a map instead and seeing if that works
         for (ArrayList<Integer> i : suitToInteger.values()) {
+            System.out.println(i.size());
             if (i.size() >= 5) {
                 Collections.sort(i);
                 if (handStrength < 5) {
@@ -226,28 +227,4 @@ public class Player {
         }
 
     }
-    // Shorten this
-    // flush
-    // if (suits.size() <= 3 && handStrength < 5) {
-    // for (int i : suits.values()) {
-    // if (i >= 5) {
-    // handStrength = 5;
-    // highestRank = "Flush";
-
-    // if (is_Straight == true) {
-    // handStrength = 8;
-    // highestRank = "Straight Flush";
-
-    // if (highestCard == 13) {
-    // handStrength = 9;
-    // highestRank = "Royal Flush!";
-    // }
-    // }
-    // break;
-    // }
-    // }
-    // }
-
-    // }
-
 }

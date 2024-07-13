@@ -88,8 +88,8 @@ public class Deck {
         for (int i = 0; i < flop.size(); i++) {
             deck.add(flop.get(i));
         }
-        deckSize();
         flop.clear();
+        players.clear();
         Shuffle();
     }
 
@@ -202,10 +202,10 @@ public class Deck {
 
         for (int i = 0; i < Winners; i++) {
             System.out.println(
-                    "Player " + TopRanked.get(i) + " Who won with: " + players.get(TopRanked.get(i)).getRankTitle());
+                    "Player " + (TopRanked.get(i) + 1) + " Who won with: "
+                            + players.get(TopRanked.get(i)).getRankTitle()
+                            + " and a highest card of: " + players.get(TopRanked.get(i)).getHighest());
         }
-
-        System.out.println("End of Game!");
 
         RegainCards();
     }

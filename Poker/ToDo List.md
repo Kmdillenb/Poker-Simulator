@@ -4,6 +4,8 @@ Things to figure out:
 Game works Kinda!
 Now find out how to make it replayable.
 - working on that!
+- Maybe add feature to hide other players hands?
+- winners isn't working
 
 
 4S AceS 6S 8H 4H
