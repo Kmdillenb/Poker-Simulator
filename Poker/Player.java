@@ -110,7 +110,6 @@ public class Player {
                 pairStrengths.add(i);
 
                 if (handStrength < 1) {
-                    System.out.println("occured");
                     handStrength = 1;
                     highestRank = "Pair";
                     highestCard = i;
@@ -199,7 +198,6 @@ public class Player {
         }
         // Gonna try making a map instead and seeing if that works
         for (ArrayList<Integer> i : suitToInteger.values()) {
-            System.out.println(i.size());
             if (i.size() >= 5) {
                 Collections.sort(i);
                 if (handStrength < 5) {

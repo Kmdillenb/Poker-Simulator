@@ -197,7 +197,8 @@ public class Deck {
             }
         }
         Winners = TopRanked.size();
-
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         System.out.println("The Winners Are: ");
 
         for (int i = 0; i < Winners; i++) {
