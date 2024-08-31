@@ -4,6 +4,8 @@ public class Deck {
     private ArrayList<Card> deck;
     private ArrayList<Card> flop;
     private ArrayList<Player> players;
+    private ArrayList<Card> setHand;
+    private ArrayList<Card> setFlop;
 
     public Deck() {
         deck = new ArrayList<Card>();
@@ -67,14 +69,55 @@ public class Deck {
         }
 
         for (int i = 0; i < players.size(); i++) {
-            players.get(i).AddCard(deck.get(deck.size() - 1));
-            deck.remove(deck.size() - 1);
-            players.get(i).AddCard(deck.get(deck.size() - 1));
-            deck.remove(deck.size() - 1);
+            if (players.get(i).HandSize() == 0) {
+                players.get(i).AddCard(deck.get(deck.size() - 1));
+                deck.remove(deck.size() - 1);
+                players.get(i).AddCard(deck.get(deck.size() - 1));
+                deck.remove(deck.size() - 1);
+            }
         }
 
         // calculates players current Strength level
         playerStrengths();
+    }
+
+    // Creates the players hand for the simulation
+    public void SetHand() {
+        setHand.add(RemoveCard());
+        setHand.add(RemoveCard());
+
+    }
+
+    // Creates the current flop for the simulation
+    public void SetFlop(int flopSize) {
+        for (int i = 0; i < flopSize; i++) {
+            setFlop.add(RemoveCard());
+        }
+    }
+
+    // Removes a card from the deck and returns it
+
+    public Card RemoveCard() {
+        String cardSuit;
+        int cardRank;
+        boolean cardFound = false;
+
+        Scanner scnr = new Scanner(System.in);
+        while (cardFound == false) {
+            System.out.println("enter the cards Suit (Hearts/Clubs/Diamonds/Spades)");
+            cardSuit = scnr.nextLine();
+            System.out.println("enter the cards Rank (2-10,11 = Jack, 12 = Queen, 13 == King, 14 = Ace)");
+            cardRank = scnr.nextInt() - 1;
+            scnr.close();
+            for (Card card : deck) {
+                if (card.getsuit().equals(cardSuit) && card.getNumber() == cardRank) {
+                    deck.remove(card);
+                    return card;
+                }
+            }
+        }
+        Card placeholder = new Card();
+        return placeholder;
     }
 
     public void RegainCards() {

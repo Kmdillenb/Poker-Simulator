@@ -17,8 +17,8 @@ public class simulation {
         // the current set flop
         int cardsOnFlop = 0;
 
-        // suite of a card
-        String suite = "";
+        // suit of a card
+        String suit = "";
 
         // Strength of a card
         int strength = 0;
@@ -28,6 +28,12 @@ public class simulation {
         results.add(0);
         results.add(0);
         results.add(0);
+
+        // cards in the set players hands
+        ArrayList<Card> setHand = new ArrayList<>();
+
+        // Cards that are currently set in the flop
+        ArrayList<Card> setFlop = new ArrayList<>();
 
         Scanner scnr = new Scanner(System.in);
 
@@ -46,9 +52,31 @@ public class simulation {
                 numPlayers = scnr.nextInt();
             }
 
+            // TO DO (the whole simulating thing)
+
+            System.out.println("Create your hand.");
+            setHand.add(hands.RemoveCard());
+            setHand.add(hands.RemoveCard());
+
+            System.out.println("How many cards are on the flop?");
+            cardsOnFlop = scnr.nextInt();
+
+            System.out.println("Create the flop.");
+            for (int i = 0; i < cardsOnFlop; i++) {
+                setFlop.add(hands.RemoveCard());
+            }
+
         }
 
         scnr.close();
+    }
+
+    public ArrayList<Card> setHand(Deck hands) {
+        ArrayList<Card> playerHand = new ArrayList<Card>();
+        playerHand.add(hands.RemoveCard());
+        playerHand.add(hands.RemoveCard());
+        return playerHand;
+
     }
 
     public int simulator() {

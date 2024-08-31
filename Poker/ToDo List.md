@@ -1,4 +1,19 @@
 Things to figure out:
+
+- find out how a player can get cards from the deck (ie call queen of hearts and put that in the players hand)
+- REMOVE PLACEHOLDER
+
+
+
+
+
+
+
+
+
+
+
+
 /Figure out how to make a straight flush
 
 Game works Kinda!

@@ -28,6 +28,11 @@ public class Player {
 
     }
 
+    // returns size of hand
+    public Integer HandSize() {
+        return hand.size();
+    }
+
     public void showHand() {
         hand.get(0).callingCard();
         System.out.print(" and ");
