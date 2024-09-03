@@ -29,6 +29,11 @@ public class Tester {
             for (int i = 0; i < numPlayers; i++) {
                 hands.addPlayer(new Player());
             }
+            if (hands.deckSize() == 52) {
+                hands.SetHand();
+                hands.SetFlop(0);
+            }
+
             hands.DealCards();
 
             // The game in progress

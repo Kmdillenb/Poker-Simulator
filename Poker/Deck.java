@@ -11,7 +11,8 @@ public class Deck {
         deck = new ArrayList<Card>();
         flop = new ArrayList<Card>();
         players = new ArrayList<Player>();
-
+        setHand = new ArrayList<Card>();
+        setFlop = new ArrayList<Card>();
     }
 
     public ArrayList<Card> getDeck() {
@@ -63,17 +64,20 @@ public class Deck {
 
     // Gives out hands at the beginning of the game
     public void DealCards() {
-        Shuffle();
-        if (deck.size() != 52) {
+        if (deck.size() + setHand.size() + setFlop.size() < 52) {
             RegainCards();
         }
 
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).HandSize() == 0) {
-                players.get(i).AddCard(deck.get(deck.size() - 1));
-                deck.remove(deck.size() - 1);
-                players.get(i).AddCard(deck.get(deck.size() - 1));
-                deck.remove(deck.size() - 1);
+                if (i == 0 && setHand.size() > 0) {
+                    players.get(0).createHand(setHand);
+                } else {
+                    players.get(i).AddCard(deck.get(deck.size() - 1));
+                    deck.remove(deck.size() - 1);
+                    players.get(i).AddCard(deck.get(deck.size() - 1));
+                    deck.remove(deck.size() - 1);
+                }
             }
         }
 
@@ -83,8 +87,12 @@ public class Deck {
 
     // Creates the players hand for the simulation
     public void SetHand() {
+        System.out.println("Creating players Hand!");
+
         setHand.add(RemoveCard());
         setHand.add(RemoveCard());
+
+        players.get(0).createHand(setHand);
 
     }
 
@@ -101,14 +109,13 @@ public class Deck {
         String cardSuit;
         int cardRank;
         boolean cardFound = false;
-
         Scanner scnr = new Scanner(System.in);
         while (cardFound == false) {
             System.out.println("enter the cards Suit (Hearts/Clubs/Diamonds/Spades)");
             cardSuit = scnr.nextLine();
             System.out.println("enter the cards Rank (2-10,11 = Jack, 12 = Queen, 13 == King, 14 = Ace)");
             cardRank = scnr.nextInt() - 1;
-            scnr.close();
+            scnr.nextLine();
             for (Card card : deck) {
                 if (card.getsuit().equals(cardSuit) && card.getNumber() == cardRank) {
                     deck.remove(card);
@@ -116,12 +123,18 @@ public class Deck {
                 }
             }
         }
+        scnr.close();
         Card placeholder = new Card();
         return placeholder;
     }
 
     public void RegainCards() {
         for (int i = 0; i < players.size(); i++) {
+            // Should stop program from taking set hand back into deck
+            if (setHand.size() > 0 && i == 0) {
+                continue;
+            }
+
             for (int j = 0; j < players.get(i).returnHand().size(); j++) {
                 deck.add(players.get(i).returnHand().get(j));
             }
@@ -129,6 +142,10 @@ public class Deck {
         }
 
         for (int i = 0; i < flop.size(); i++) {
+            // should stop program from taking set flop
+            if (i < setFlop.size()) {
+                continue;
+            }
             deck.add(flop.get(i));
         }
         flop.clear();
@@ -149,15 +166,23 @@ public class Deck {
         }
     }
 
-    // prints the size of the deck
-    public void deckSize() {
-        System.out.println(deck.size());
+    // returns the size of the deck
+    public int deckSize() {
+        return deck.size();
     }
 
     public void revealCard() {
         // When flop is first Shown
         if (flop.size() == 0) {
-            for (int i = 0; i < 3; i++) {
+
+            // adds cards from setFlop
+            if (setFlop.size() > 0) {
+                for (Card card : setFlop) {
+                    flop.add(card);
+                }
+            }
+
+            while (flop.size() != 3) {
                 flop.add(deck.get(deck.size() - 1));
                 deck.remove(deck.size() - 1);
             }
