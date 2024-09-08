@@ -1,3 +1,5 @@
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 
 public class simulation {
@@ -7,6 +9,12 @@ public class simulation {
         hands.CreateDeck();
         // determines if the simulation runs
         String answer = "";
+
+        // How many times the simulation runs
+        int numRuns = 1;
+
+        // What the simulation returns (1 == win, 0 == draw, -1 == loss)
+        int simResult;
 
         // determines if the simulation runs again
         String replay = "";
@@ -24,10 +32,9 @@ public class simulation {
         int strength = 0;
 
         // Win/Loss/Tie Rates
-        ArrayList<Integer> results = new ArrayList<>();
-        results.add(0);
-        results.add(0);
-        results.add(0);
+        int[] results = { 0, 0, 0 };
+
+        long before = 0;
 
         // cards in the set players hands
         ArrayList<Card> setHand = new ArrayList<>();
@@ -52,34 +59,72 @@ public class simulation {
                 numPlayers = scnr.nextInt();
             }
 
-            // TO DO (the whole simulating thing)
-
-            System.out.println("Create your hand.");
-            setHand.add(hands.RemoveCard());
-            setHand.add(hands.RemoveCard());
-
-            System.out.println("How many cards are on the flop?");
-            cardsOnFlop = scnr.nextInt();
-
-            System.out.println("Create the flop.");
-            for (int i = 0; i < cardsOnFlop; i++) {
-                setFlop.add(hands.RemoveCard());
+            for (int i = 0; i < numPlayers; i++) {
+                hands.addPlayer(new Player());
             }
 
+            // TO DO (the whole simulating thing)
+            System.out.println("How many cards are on the flop? [0/3/4/5]");
+            cardsOnFlop = scnr.nextInt();
+
+            if (hands.deckSize() == 52) {
+                hands.SetHand();
+                hands.SetFlop(cardsOnFlop);
+            }
+
+            System.out.println("How many times do you want the simulation to run?");
+            numRuns = scnr.nextInt();
+
+            before = System.nanoTime();
+
+            for (int i = 0; i < numRuns; i++) {
+                simResult = simulator(hands, cardsOnFlop);
+                if (simResult == 1) {
+                    results[0] += 1;
+                } else if (simResult == 0) {
+                    results[1] += 1;
+                } else {
+                    results[2] += 1;
+                }
+            }
+
+            answer = "n";
+
         }
+        System.out.println("You won " + results[0] + " games.");
+        System.out.println("You tied " + results[1] + " games.");
+        System.out.println("You lost " + results[2] + " games.");
+
+        System.out.println(
+                "\n Your win percentage was: " + (Math.round(10000 * ((double) results[0]) / numRuns)) / 100.00 + "%");
+
+        System.out.println(
+                "\n Your win/tie percentage was: "
+                        + (Math.round(10000 * ((double) (results[0] + results[1])) / numRuns)) / 100.00 + "%");
+
+        System.out.println(
+                "\n Your loss percentage was: " + (Math.round(10000 * ((double) results[2]) / numRuns)) / 100.00 + "%");
+
+        long durationMs = (System.nanoTime() - before) / 1_000_000;
+        System.out.println("\n" + durationMs + " ms");
 
         scnr.close();
     }
 
-    public ArrayList<Card> setHand(Deck hands) {
-        ArrayList<Card> playerHand = new ArrayList<Card>();
-        playerHand.add(hands.RemoveCard());
-        playerHand.add(hands.RemoveCard());
-        return playerHand;
+    public static int simulator(Deck hands, int cardsOnFlop) {
+        // How many times the flop has to be revealed plus one for the game over part
+        int revealsLeft = 0;
+        if (cardsOnFlop == 0) {
+            revealsLeft = 4;
+        } else {
+            revealsLeft = 7 - cardsOnFlop;
+        }
+        hands.DealCards();
+        for (int i = 0; i < revealsLeft; i++) {
 
-    }
+            hands.revealCard();
+        }
 
-    public int simulator() {
-        return 0;
+        return hands.getResult();
     }
 }

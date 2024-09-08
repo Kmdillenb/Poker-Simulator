@@ -55,6 +55,11 @@ public class Player {
         return highestRank;
     }
 
+    public void resetStrength() {
+        handStrength = 0;
+        highestCard = 0;
+    }
+
     // Determines the highest rank a player currently is aswell as the highest card
     // for that rank
     public void determineStrength(ArrayList<Card> current_flop) {
@@ -120,13 +125,20 @@ public class Player {
                     highestCard = i;
                 }
 
-            } else if (Numbers.get(i) == 3 && handStrength < 3) {
+            }
+            // Should fix full house problem (card remembers its own strength but not
+            // threepairs)
+            if (Numbers.get(i) >= 3) {
+                threeStrengths.add(i);
+            }
+
+            if (Numbers.get(i) >= 3 && handStrength < 3) {
                 // Three of a kind
                 handStrength = 3;
-                threeStrengths.add(i);
                 highestRank = "Three of a kind";
                 highestCard = i;
-            } else if (Numbers.get(i) == 4 && handStrength < 7) {
+            }
+            if (Numbers.get(i) == 4 && handStrength < 7) {
                 handStrength = 7;
                 highestCard = i;
                 highestRank = "Four of a kind";

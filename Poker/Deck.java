@@ -6,6 +6,7 @@ public class Deck {
     private ArrayList<Player> players;
     private ArrayList<Card> setHand;
     private ArrayList<Card> setFlop;
+    private int simResult;
 
     public Deck() {
         deck = new ArrayList<Card>();
@@ -13,6 +14,7 @@ public class Deck {
         players = new ArrayList<Player>();
         setHand = new ArrayList<Card>();
         setFlop = new ArrayList<Card>();
+        simResult = 0;
     }
 
     public ArrayList<Card> getDeck() {
@@ -67,6 +69,7 @@ public class Deck {
         if (deck.size() + setHand.size() + setFlop.size() < 52) {
             RegainCards();
         }
+        Shuffle();
 
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).HandSize() == 0) {
@@ -86,8 +89,16 @@ public class Deck {
     }
 
     // Creates the players hand for the simulation
+    // Edit it so that you can change the options and run again
     public void SetHand() {
         System.out.println("Creating players Hand!");
+        if (setHand.size() > 0) {
+            for (Card card : setHand) {
+                deck.add(card);
+                Shuffle();
+            }
+            setHand.clear();
+        }
 
         setHand.add(RemoveCard());
         setHand.add(RemoveCard());
@@ -98,9 +109,22 @@ public class Deck {
 
     // Creates the current flop for the simulation
     public void SetFlop(int flopSize) {
+        if (setFlop.size() > 0) {
+            System.out.println("Create the current flop!");
+            for (Card card : setFlop) {
+                deck.add(card);
+                Shuffle();
+            }
+        }
+
         for (int i = 0; i < flopSize; i++) {
             setFlop.add(RemoveCard());
         }
+    }
+
+    // Returns result of simulation
+    public int getResult() {
+        return simResult;
     }
 
     // Removes a card from the deck and returns it
@@ -113,11 +137,12 @@ public class Deck {
         while (cardFound == false) {
             System.out.println("enter the cards Suit (Hearts/Clubs/Diamonds/Spades)");
             cardSuit = scnr.nextLine();
+            cardSuit = cardSuit.toLowerCase();
             System.out.println("enter the cards Rank (2-10,11 = Jack, 12 = Queen, 13 == King, 14 = Ace)");
             cardRank = scnr.nextInt() - 1;
             scnr.nextLine();
             for (Card card : deck) {
-                if (card.getsuit().equals(cardSuit) && card.getNumber() == cardRank) {
+                if ((card.getsuit().toLowerCase()).equals(cardSuit) && card.getNumber() == cardRank) {
                     deck.remove(card);
                     return card;
                 }
@@ -130,6 +155,8 @@ public class Deck {
 
     public void RegainCards() {
         for (int i = 0; i < players.size(); i++) {
+            players.get(i).resetStrength();
+
             // Should stop program from taking set hand back into deck
             if (setHand.size() > 0 && i == 0) {
                 continue;
@@ -149,7 +176,9 @@ public class Deck {
             deck.add(flop.get(i));
         }
         flop.clear();
-        players.clear();
+        if (setHand.size() == 0) {
+            players.clear();
+        }
         Shuffle();
     }
 
@@ -182,7 +211,7 @@ public class Deck {
                 }
             }
 
-            while (flop.size() != 3) {
+            while (flop.size() < 3) {
                 flop.add(deck.get(deck.size() - 1));
                 deck.remove(deck.size() - 1);
             }
@@ -226,7 +255,6 @@ public class Deck {
     }
 
     public void endGame() {
-        System.out.println("Game Over!");
 
         // Determine winner
         int Winners = 0;
@@ -265,15 +293,30 @@ public class Deck {
             }
         }
         Winners = TopRanked.size();
-        System.out.print("\033[H\033[2J");
+        if (setHand.size() == 0) {
+            // System.out.print("\033[H\033[2J");
+        }
         System.out.flush();
-        System.out.println("The Winners Are: ");
+        if (setHand.size() == 0) {
+            System.out.println("The Winners Are: ");
 
-        for (int i = 0; i < Winners; i++) {
-            System.out.println(
-                    "Player " + (TopRanked.get(i) + 1) + " Who won with: "
-                            + players.get(TopRanked.get(i)).getRankTitle()
-                            + " and a highest card of: " + players.get(TopRanked.get(i)).getHighest());
+            for (int i = 0; i < Winners; i++) {
+                System.out.println(
+                        "Player " + (TopRanked.get(i) + 1) + " Who won with: "
+                                + players.get(TopRanked.get(i)).getRankTitle()
+                                + " and a highest card of: " + players.get(TopRanked.get(i)).getHighest());
+            }
+        }
+
+        // Determines outcome of simulation round
+        if (TopRanked.get(0) == 0) {
+            if (Winners > 1) {
+                simResult = 0;
+            } else {
+                simResult = 1;
+            }
+        } else {
+            simResult = -1;
         }
 
         RegainCards();

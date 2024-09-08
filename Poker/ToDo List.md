@@ -3,6 +3,8 @@ Things to figure out:
 - find out how a player can get cards from the deck (ie call queen of hearts and put that in the players hand)
 - REMOVE PLACEHOLDER
 
+-line 285 on deck (removes text)
+
 
 
 
