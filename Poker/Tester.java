@@ -1,8 +1,8 @@
 import java.util.*;
 
+// Used to run a single game of poker
 public class Tester {
     public static void main(String[] args) {
-        System.out.println("Hola!");
         Deck hands = new Deck();
         hands.CreateDeck();
 
@@ -29,10 +29,6 @@ public class Tester {
             for (int i = 0; i < numPlayers; i++) {
                 hands.addPlayer(new Player());
             }
-            if (hands.deckSize() == 52) {
-                hands.SetHand();
-                hands.SetFlop(0);
-            }
 
             hands.DealCards();
 
@@ -54,7 +50,6 @@ public class Tester {
                     if (replay.toLowerCase().equals("n")) {
                         break;
                     }
-                    System.out.print("\033[H\033[2J");
                     System.out.flush();
                 }
             }
@@ -71,22 +66,6 @@ public class Tester {
             hands.RegainCards();
         }
         System.out.println("Game Over!");
-
-        // hands.CreateDeck();
-        // hands.Shuffle();
-        // hands.CallCards();
-        // hands.deckSize();
-        // hands.addPlayer(new Player());
-        // hands.addPlayer(new Player());
-
-        // hands.DealCards();
-        // hands.revealCard();
-        // hands.revealCard();
-        // hands.revealCard();
-        // hands.showFlop();
-        // hands.playerStrengths();
-        // hands.playerHands();
-        // hands.revealCard();
 
         scnr.close();
     }

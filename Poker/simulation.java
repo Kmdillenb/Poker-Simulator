@@ -2,30 +2,31 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
+// Used to simulate a given hand and return that hands chances of winning and losing
 public class simulation {
     public static void main(String[] args) {
         System.out.println("Welcome to the simulator!");
         Deck hands = new Deck();
         hands.CreateDeck();
-        // determines if the simulation runs
+        // Determines if the simulation runs
         String answer = "";
 
         // How many times the simulation runs
-        int numRuns = 1;
+        int numRuns = 20000;
 
         // What the simulation returns (1 == win, 0 == draw, -1 == loss)
         int simResult;
 
-        // determines if the simulation runs again
+        // Determines if the simulation runs again
         String replay = "";
 
-        // the number of players in the current simulation
+        // The number of players in the current simulation
         int numPlayers = 0;
 
-        // the current set flop
+        // The current set flop
         int cardsOnFlop = 0;
 
-        // suit of a card
+        // Suit of a card
         String suit = "";
 
         // Strength of a card
@@ -36,7 +37,7 @@ public class simulation {
 
         long before = 0;
 
-        // cards in the set players hands
+        // Cards in the set players hands
         ArrayList<Card> setHand = new ArrayList<>();
 
         // Cards that are currently set in the flop
@@ -44,7 +45,7 @@ public class simulation {
 
         Scanner scnr = new Scanner(System.in);
 
-        System.out.println("Would you like to run a simulation?");
+        System.out.println("Would you like to run a simulation? [y || n]");
         while (!(answer.toLowerCase().equals("y")) && !(answer.toLowerCase().equals("n"))) {
             answer = scnr.nextLine();
         }
@@ -53,7 +54,7 @@ public class simulation {
             replay = "";
             numPlayers = 0;
 
-            // finds number of players
+            // Finds number of players
             System.out.println("How many players?[1-20]");
             while (numPlayers < 1 || numPlayers > 21) {
                 numPlayers = scnr.nextInt();
@@ -63,7 +64,6 @@ public class simulation {
                 hands.addPlayer(new Player());
             }
 
-            // TO DO (the whole simulating thing)
             System.out.println("How many cards are on the flop? [0/3/4/5]");
             cardsOnFlop = scnr.nextInt();
 
@@ -72,10 +72,9 @@ public class simulation {
                 hands.SetFlop(cardsOnFlop);
             }
 
-            System.out.println("How many times do you want the simulation to run?");
-            numRuns = scnr.nextInt();
-
             before = System.nanoTime();
+
+            System.out.println("loading...");
 
             for (int i = 0; i < numRuns; i++) {
                 simResult = simulator(hands, cardsOnFlop);

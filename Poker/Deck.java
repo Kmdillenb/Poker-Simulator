@@ -21,6 +21,7 @@ public class Deck {
         return deck;
     }
 
+    // Creates a new deck of 52 cards
     public void CreateDeck() {
         String suit = "Diamonds";
         Card template;
@@ -41,6 +42,7 @@ public class Deck {
         }
     }
 
+    // Prints out the info of the cards currently in the deck
     public void CallCards() {
         for (int i = 0; i < deck.size(); i++) {
             deck.get(i).callingCard();
@@ -48,6 +50,7 @@ public class Deck {
         }
     }
 
+    // Randomizes the positions of the cards currently in the deck
     public void Shuffle() {
         ArrayList<Card> shuffled = new ArrayList<Card>();
         int random = 0;
@@ -60,6 +63,7 @@ public class Deck {
         deck = shuffled;
     }
 
+    // Adds a new person to the game
     public void addPlayer(Player person) {
         players.add(person);
     }
@@ -84,14 +88,13 @@ public class Deck {
             }
         }
 
-        // calculates players current Strength level
+        // Calculates players current Strength level
         playerStrengths();
     }
 
     // Creates the players hand for the simulation
-    // Edit it so that you can change the options and run again
     public void SetHand() {
-        System.out.println("Creating players Hand!");
+        System.out.println("Create your Hand!");
         if (setHand.size() > 0) {
             for (Card card : setHand) {
                 deck.add(card);
@@ -110,7 +113,6 @@ public class Deck {
     // Creates the current flop for the simulation
     public void SetFlop(int flopSize) {
         if (setFlop.size() > 0) {
-            System.out.println("Create the current flop!");
             for (Card card : setFlop) {
                 deck.add(card);
                 Shuffle();
@@ -118,6 +120,9 @@ public class Deck {
         }
 
         for (int i = 0; i < flopSize; i++) {
+            if (i == 0) {
+                System.out.println("Create the current flop!");
+            }
             setFlop.add(RemoveCard());
         }
     }
@@ -128,7 +133,6 @@ public class Deck {
     }
 
     // Removes a card from the deck and returns it
-
     public Card RemoveCard() {
         String cardSuit;
         int cardRank;
@@ -153,11 +157,12 @@ public class Deck {
         return placeholder;
     }
 
+    // Regains cards from the players/table after a game has finished
     public void RegainCards() {
         for (int i = 0; i < players.size(); i++) {
             players.get(i).resetStrength();
 
-            // Should stop program from taking set hand back into deck
+            // Stops program from taking set hand back into deck
             if (setHand.size() > 0 && i == 0) {
                 continue;
             }
@@ -169,7 +174,7 @@ public class Deck {
         }
 
         for (int i = 0; i < flop.size(); i++) {
-            // should stop program from taking set flop
+            // Stops program from taking set flop
             if (i < setFlop.size()) {
                 continue;
             }
@@ -182,6 +187,7 @@ public class Deck {
         Shuffle();
     }
 
+    // Shows the contents of the hands of each of the current players
     public void playerHands() {
         for (int i = 0; i < players.size(); i++) {
             System.out.print("Player " + (i + 1) + ": ");
@@ -189,13 +195,14 @@ public class Deck {
         }
     }
 
+    // Determines the strength of each players deck given the current flop
     public void playerStrengths() {
         for (int i = 0; i < players.size(); i++) {
             players.get(i).determineStrength(flop);
         }
     }
 
-    // returns the size of the deck
+    // Returns the size of the deck
     public int deckSize() {
         return deck.size();
     }
@@ -204,7 +211,7 @@ public class Deck {
         // When flop is first Shown
         if (flop.size() == 0) {
 
-            // adds cards from setFlop
+            // Adds cards from setFlop
             if (setFlop.size() > 0) {
                 for (Card card : setFlop) {
                     flop.add(card);
@@ -231,18 +238,8 @@ public class Deck {
         return flop;
     }
 
+    // Shows whats currently on the flop
     public void showFlop() {
-        // Used for Testing
-        // flop.clear();
-        // flop.add(deck.get(42));
-        // flop.add(deck.get(11));
-        // flop.add(deck.get(19));
-        // flop.add(deck.get(10));
-        // flop.add(deck.get(4));
-        // players.get(0).AddCard(deck.get(16));
-        // players.get(0).AddCard(deck.get(38));
-        // players.get(1).AddCard(deck.get(51));
-        // players.get(1).AddCard(deck.get(10));
 
         System.out.print("Flop is: ");
         for (int i = 0; i < flop.size(); i++) {
@@ -265,10 +262,10 @@ public class Deck {
         // Highest Card out of the high ranked players
         int TopCard = 0;
 
-        // array of everyones ranks
+        // Array of everyones ranks
         ArrayList<Integer> rankings = new ArrayList<Integer>();
 
-        // array of everyones high cards
+        // Array of everyones high cards
         ArrayList<Integer> highCards = new ArrayList<Integer>();
 
         // Just players with the highest rank
@@ -294,7 +291,6 @@ public class Deck {
         }
         Winners = TopRanked.size();
         if (setHand.size() == 0) {
-            // System.out.print("\033[H\033[2J");
         }
         System.out.flush();
         if (setHand.size() == 0) {

@@ -5,14 +5,16 @@ public class Card {
 
     public Card() {
         number = 1;
-        suit = "huh";
-        title = "special";
+        suit = "None";
+        title = "Number";
     }
 
+    // Returns the number of the card
     public int getNumber() {
         return number;
     }
 
+    // Sets the number of the card
     public void setNumber(int number) {
         this.number = number;
 
@@ -28,14 +30,17 @@ public class Card {
         }
     }
 
+    // Returns the suit of the card
     public String getsuit() {
         return suit;
     }
 
+    // Sets the suit of the card
     public void setsuit(String suit) {
         this.suit = suit;
     }
 
+    // Prints out the features of the card (ex: 10 of Hearts)
     public void callingCard() {
         if (number < 10) {
             System.out.print(number + 1);

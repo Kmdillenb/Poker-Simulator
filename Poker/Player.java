@@ -2,7 +2,6 @@ import java.util.*;
 
 public class Player {
     private ArrayList<Card> hand;
-    // Goes up for every rank
     private int handStrength;
     private int highestCard;
     private String highestRank;
@@ -14,25 +13,29 @@ public class Player {
         highestRank = "Null";
     }
 
+    // Creates a players hand given an ArrayList of cards
     public void createHand(ArrayList<Card> cards) {
         hand = cards;
     }
 
+    // Adds cards to a players hand
     public void AddCard(Card card) {
         hand.add(card);
     }
 
+    // Returns the players current hand
     public ArrayList<Card> returnHand() {
         ArrayList<Card> temp = hand;
         return temp;
 
     }
 
-    // returns size of hand
+    // Returns size of hand
     public Integer HandSize() {
         return hand.size();
     }
 
+    // Shows the contents of the players current hand
     public void showHand() {
         hand.get(0).callingCard();
         System.out.print(" and ");
@@ -43,18 +46,22 @@ public class Player {
         System.out.println();
     }
 
+    // Returns the players current rank (ie what pairings the players hand has)
     public int getRanking() {
         return handStrength;
     }
 
+    // Returns the highest value card the player has (depends on the rank)
     public int getHighest() {
         return highestCard;
     }
 
+    // Returns the title of the players current rank (ex: Full House)
     public String getRankTitle() {
         return highestRank;
     }
 
+    // Resets the players handStrength and highestCard values
     public void resetStrength() {
         handStrength = 0;
         highestCard = 0;
@@ -65,7 +72,6 @@ public class Player {
     public void determineStrength(ArrayList<Card> current_flop) {
         ArrayList<Card> allCards = new ArrayList<Card>();
 
-        // Figure this part out (list of numbers attached to a key of the suit name)
         HashMap<String, ArrayList<Integer>> suitToInteger = new HashMap<String, ArrayList<Integer>>();
 
         HashMap<String, Integer> suits = new HashMap<String, Integer>();
@@ -82,7 +88,7 @@ public class Player {
 
         // Finding int values and suits
         for (int i = 0; i < allCards.size(); i++) {
-            // checks if in hashmap, if so increments 1, if no it adds it to hashmap
+            // Checks if in hashmap, if so increments 1, if no it adds it to hashmap
             if (Numbers.get(allCards.get(i).getNumber()) == null) {
                 Numbers.put(allCards.get(i).getNumber(), 1);
             } else {
@@ -109,12 +115,10 @@ public class Player {
                 }
             }
         }
-        // do something
-        // look for pairs
+        // Looks for pairs
         int num_pairs = 0;
-        // THIS IS CURRENTLY BEING CHANGED, MAKE SURE THE I's REFLECT THIS
         for (int i : Numbers.keySet()) {
-            // Get ride of handStrength check, makes three of a kind impossible?
+
             if (Numbers.get(i) == 2) {
                 num_pairs += 1;
                 pairStrengths.add(i);
@@ -126,8 +130,7 @@ public class Player {
                 }
 
             }
-            // Should fix full house problem (card remembers its own strength but not
-            // threepairs)
+
             if (Numbers.get(i) >= 3) {
                 threeStrengths.add(i);
             }
@@ -149,12 +152,11 @@ public class Player {
                 highestCard = Math.max(pairStrengths.get(0), pairStrengths.get(1));
             }
         }
-        // puts the strength of the pairs in order so It's easier to compare them with
+        // Puts the strength of the pairs in order so It's easier to compare them with
         // other players at the end
         Collections.sort(pairStrengths);
         Collections.sort(threeStrengths);
 
-        // Full House? (need to test)
         if ((num_pairs >= 1 && handStrength == 3) && handStrength < 6) {
             handStrength = 6;
             highestRank = "Full House";
@@ -177,7 +179,7 @@ public class Player {
             is_Straight = false;
             // Determines if the straight is also a straight flush
             boolean temp_Straight = false;
-            // runs 1-3 times, depending on the size of the flop
+            // Runs 1-3 times, depending on the size of the flop
             for (int i = 0; i <= straight_Nums.size() - 5; i++) {
                 for (int j = 0; j < 4; j++) {
                     temp_Straight = true;
@@ -191,29 +193,15 @@ public class Player {
 
                     }
                 }
-                // if (straight_Nums.get(i) + 1 != straight_Nums.get(i + 1)) {
-                // chances -= 1;
-                // }
             }
 
             if (is_Straight == true) {
                 handStrength = 4;
                 highestRank = "Straight";
 
-                // Need to figure this out elsewhere
-
-                // if (suits.size() == 1) {
-                // handStrength = 8;
-                // highestRank = "Straight Flush";
-
-                // if (straight_Nums.get(straight_Nums.size() - 1) == 13) {
-                // handStrength = 9;
-                // highestRank = "Royal Flush!";
-                // }
-                // }
             }
         }
-        // Gonna try making a map instead and seeing if that works
+
         for (ArrayList<Integer> i : suitToInteger.values()) {
             if (i.size() >= 5) {
                 Collections.sort(i);
@@ -223,7 +211,7 @@ public class Player {
                     highestRank = "Flush";
                 }
 
-                // checking for straight
+                // Checking for straight
                 for (int j = 0; j < i.size() - 4; j++) {
                     if (i.get(0 + j) + 4 == i.get(4 + j)) {
                         highestCard = i.get(4 + j);
